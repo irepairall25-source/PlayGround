@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en" data-app-ready="false">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070b14">
+  <meta name="description" content="Unofficial remote camera console concept for Xfinity-style home cameras with live views, motion events, snapshots, and time-limited viewer access.">
+  <title>Xfinity Cam — Remote Camera Access</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%236d5cff'/%3E%3Cpath d='M17 22h30v20H17z' fill='none' stroke='white' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='6' fill='white'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="i-snapshot" viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7Z"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9Z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M18.5 6.5a8 8 0 0 1 0 11"/></symbol>
+    <symbol id="i-mute" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9Z"/><path d="m16 9 5 6M21 9l-5 6"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"/></symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5c0 5 3.2 8.5 7.5 10 4.3-1.5 7.5-5 7.5-10V6Z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-motion" viewBox="0 0 24 24"><path d="M4 12h3l2-5 3 10 2.5-7 1.5 2h4"/></symbol>
+    <symbol id="i-person" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3"/><path d="M6 21v-2a6 6 0 0 1 12 0v2"/></symbol>
+    <symbol id="i-car" viewBox="0 0 24 24"><path d="M5 16v2M19 16v2M3 16h18l-2-6H5Z"/><circle cx="7.5" cy="16" r="1.5"/><circle cx="16.5" cy="16" r="1.5"/><path d="m7 10 1.5-4h7L17 10"/></symbol>
+    <symbol id="i-package" viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9Z"/><path d="m4 7.5 8 4.5 8-4.5M12 12v9M8 5l8 4.5"/></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M4 9a12 12 0 0 1 16 0M7 12.5a7 7 0 0 1 10 0M10 16a2.5 2.5 0 0 1 4 0"/><circle cx="12" cy="19" r=".6" fill="currentColor"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .7-7.9A5.5 5.5 0 0 0 7 8.5 4.75 4.75 0 0 0 7 18Z"/><path d="m9 13.5 2 2 4-4"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1-2.9 2.9-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21h-4v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1-2.9-2.9.1-.1A1.6 1.6 0 0 0 4.6 15a1.6 1.6 0 0 0-1.5-1H3v-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1 2.9-2.9.1.1a1.6 1.6 0 0 0 1.8.3 1.6 1.6 0 0 0 1-1.5V3h4v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1 2.9 2.9-.1.1a1.6 1.6 0 0 0-.3 1.8 1.6 1.6 0 0 0 1.5 1h.1v4h-.1a1.6 1.6 0 0 0-1.5 1Z"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4.5 4.5L19 7"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6Z"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  </svg>
+
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark"><span>x</span></div>
+        <div class="brand-copy">
+          <strong>Xfinity Cam</strong>
+          <span>Remote access console</span>
+        </div>
+      </div>
+
+      <nav class="topnav" aria-label="Primary navigation">
+        <button class="nav-item is-active" type="button" data-nav="live">Live</button>
+        <button class="nav-item" type="button" data-nav="events">Events</button>
+        <button class="nav-item" type="button" data-nav="cameras">Cameras</button>
+        <button class="nav-item" type="button" data-nav="settings">Settings</button>
+      </nav>
+
+      <div class="topbar-actions">
+        <div class="status-pill" title="Connection status">
+          <span class="status-dot"></span>
+          <span class="status-label">All cameras online</span>
+        </div>
+        <button class="icon-btn notification-btn" id="notificationsBtn" type="button" aria-label="Notifications">
+          <svg class="icon"><use href="#i-bell"/></svg>
+          <span class="badge">3</span>
+        </button>
+        <button class="avatar" id="accountBtn" type="button" aria-label="Account menu">AR</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar" aria-label="Camera list">
+        <div class="sidebar-heading">
+          <div>
+            <h2>Cameras</h2>
+            <span class="muted" id="cameraCount">4 connected</span>
+          </div>
+          <button class="icon-btn small" id="addCameraBtn" type="button" aria-label="Add camera">
+            <svg class="icon"><use href="#i-plus"/></svg>
+          </button>
+        </div>
+
+        <div class="filter-row" role="tablist" aria-label="Filter cameras">
+          <button class="filter is-active" type="button" role="tab" data-filter="all" aria-selected="true">All</button>
+          <button class="filter" type="button" role="tab" data-filter="Indoor" aria-selected="false">Indoor</button>
+          <button class="filter" type="button" role="tab" data-filter="Outdoor" aria-selected="false">Outdoor</button>
+        </div>
+
+        <div class="camera-list" id="cameraList"></div>
+
+        <div class="sidebar-card access-card">
+          <div class="card-top">
+            <span class="card-label">Remote access</span>
+            <span class="pill pill-green">Active</span>
+          </div>
+          <div class="access-code">
+            <span id="accessCode">XCF-8241</span>
+            <button class="icon-btn tiny" id="copyCodeBtn" type="button" aria-label="Copy access code">
+              <svg class="icon"><use href="#i-copy"/></svg>
+            </button>
+          </div>
+          <p>Invite a trusted viewer with a link that expires automatically.</p>
+          <button class="btn btn-ghost full" id="copyLinkBtn" type="button">
+            <svg class="icon"><use href="#i-copy"/></svg>
+            Copy viewer link
+          </button>
+        </div>
+      </aside>
+
+      <section class="stage" aria-label="Live camera stage">
+        <div class="stage-head">
+          <div class="stage-title">
+            <div class="eyebrow"><span class="live-dot"></span> Live view</div>
+            <h1 id="activeName">Front Door</h1>
+            <p id="activeMeta">Outdoor · 2K HDR · Strong signal</p>
+          </div>
+          <div class="stage-actions">
+            <button class="btn btn-ghost" id="gridBtn" type="button" aria-pressed="false">
+              <svg class="icon"><use href="#i-grid"/></svg>
+              <span>Grid view</span>
+            </button>
+            <button class="btn btn-primary" id="snapshotBtn" type="button">
+              <svg class="icon"><use href="#i-snapshot"/></svg>
+              <span>Snapshot</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="feed" id="feed">
+          <canvas id="mainCanvas" width="1280" height="720" aria-label="Live camera feed"></canvas>
+          <video id="mainVideo" playsinline muted loop hidden></video>
+          <img id="mainImage" alt="" hidden>
+          <div class="grid-feed" id="gridFeed" hidden></div>
+          <div class="feed-scanlines" aria-hidden="true"></div>
+          <div class="feed-vignette" aria-hidden="true"></div>
+
+          <div class="feed-top">
+            <span class="live-badge" id="liveBadge"><span class="dot"></span><span id="liveLabel">LIVE</span></span>
+            <span class="feed-clock" id="feedClock">--:--:--</span>
+          </div>
+
+          <div class="feed-bottom">
+            <div class="feed-title">
+              <strong id="feedTitle">Front Door</strong>
+              <span id="feedSub">Motion detected 2m ago</span>
+            </div>
+            <div class="feed-controls">
+              <button class="feed-btn" id="pauseBtn" type="button" aria-label="Pause live view">
+                <svg class="icon"><use href="#i-pause"/></svg>
+              </button>
+              <button class="feed-btn" id="muteBtn" type="button" aria-label="Mute audio">
+                <svg class="icon"><use href="#i-volume"/></svg>
+              </button>
+              <button class="feed-btn" id="nightBtn" type="button" aria-label="Toggle night vision">
+                <svg class="icon"><use href="#i-moon"/></svg>
+              </button>
+              <button class="feed-btn" id="fullBtn" type="button" aria-label="Enter fullscreen">
+                <svg class="icon"><use href="#i-expand"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="feed-watermark">Xfinity Cam · Encrypted stream</div>
+        </div>
+
+        <div class="quickrow">
+          <div class="stat"><span>Stream</span><strong>2K · 30 fps</strong></div>
+          <div class="stat"><span>Latency</span><strong>180 ms</strong></div>
+          <div class="stat"><span>Cloud storage</span><strong>68% · 41 GB</strong></div>
+          <div class="stat"><span>Viewers</span><strong>Owner + 1</strong></div>
+        </div>
+
+        <div class="section-head">
+          <h2>Recent activity</h2>
+          <button class="link-btn" id="viewAllBtn" type="button">View all</button>
+        </div>
+        <div class="events-strip" id="eventsStrip"></div>
+      </section>
+
+      <aside class="inspector" aria-label="Camera overview">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Live overview</h2>
+            <span class="pill pill-green">Online</span>
+          </div>
+          <div class="mini-grid" id="miniGrid"></div>
+          <div class="meter-row"><span>Home bandwidth</span><strong>42 Mbps</strong></div>
+          <div class="meter"><span style="width: 42%"></span></div>
+          <div class="kv"><span>Gateway</span><strong>XB8 · Online</strong></div>
+          <div class="kv"><span>Cloud backup</span><strong>Enabled</strong></div>
+          <div class="kv"><span>Last sync</span><strong>Just now</strong></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Motion events</h2>
+            <span class="muted">Today</span>
+          </div>
+          <div class="event-list" id="eventList"></div>
+        </div>
+
+        <div class="panel tip-panel">
+          <div class="tip-icon"><svg class="icon"><use href="#i-shield"/></svg></div>
+          <h3>Private by design</h3>
+          <p>Streams stay encrypted end to end. Viewer links expire automatically after 24 hours.</p>
+          <button class="btn btn-ghost full" id="securityBtn" type="button">Security settings</button>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <span>Unofficial concept interface · Simulated feeds for demonstration</span>
+      <span class="footer-links"><button type="button" data-foot="privacy">Privacy</button><button type="button" data-foot="terms">Terms</button><button type="button" data-foot="support">Support</button></span>
+    </footer>
+  </div>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <button class="mobile-nav-item is-active" type="button" data-nav="live"><svg class="icon"><use href="#i-camera"/></svg><span>Live</span></button>
+    <button class="mobile-nav-item" type="button" data-nav="events"><svg class="icon"><use href="#i-bolt"/></svg><span>Events</span></button>
+    <button class="mobile-nav-item" type="button" data-nav="cameras"><svg class="icon"><use href="#i-grid"/></svg><span>Cameras</span></button>
+    <button class="mobile-nav-item" type="button" data-nav="settings"><svg class="icon"><use href="#i-settings"/></svg><span>Settings</span></button>
+  </nav>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="modal-backdrop" id="cameraModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cameraModalTitle">
+      <div class="modal-head">
+        <div>
+          <span class="eyebrow">Device setup</span>
+          <h2 id="cameraModalTitle">Add remote camera</h2>
+        </div>
+        <button class="icon-btn" id="closeModalBtn" type="button" aria-label="Close dialog">
+          <svg class="icon"><use href="#i-close"/></svg>
+        </button>
+      </div>
+      <p class="modal-copy">Register a camera exposed by your home gateway. Browser-playable MP4, WebM, or image URLs stream directly; other feeds use a simulated preview.</p>
+      <form id="cameraForm" autocomplete="off">
+        <label>Camera name<input name="name" required maxlength="40" placeholder="Garage camera"></label>
+        <label>Location
+          <select name="group">
+            <option>Outdoor</option>
+            <option>Indoor</option>
+          </select>
+        </label>
+        <label>Stream URL <span class="optional">optional</span>
+          <input name="streamUrl" type="url" placeholder="https://gateway.local/camera.mp4">
+        </label>
+        <div class="modal-actions">
+          <button class="btn btn-ghost" id="cancelModalBtn" type="button">Cancel</button>
+          <button class="btn btn-primary" type="submit">Add camera</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
