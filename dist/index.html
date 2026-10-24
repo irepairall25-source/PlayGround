@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TFTP Server</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>TFTP Server</h1>
+    <div class="meta">
+      <span class="badge">Web: <span id="webPort"></span></span>
+      <span class="badge">TFTP: <span id="tftpPort"></span> (udp)</span>
+      <span class="badge">Root: <span id="rootDir"></span></span>
+    </div>
+  </header>
+
+  <section class="upload">
+    <h2>Upload File</h2>
+    <form id="uploadForm">
+      <input type="file" id="fileInput" required>
+      <button type="submit">Upload</button>
+    </form>
+    <div id="uploadMsg" class="msg"></div>
+  </section>
+
+  <section class="files">
+    <h2>Files (<span id="fileCount">0</span>)</h2>
+    <div id="fileList" class="file-list">
+      <p class="empty">Loading...</p>
+    </div>
+  </section>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
